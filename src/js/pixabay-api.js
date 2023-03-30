@@ -9,8 +9,8 @@ export class PixabayAPI {
     q = null;
     per_page = 40;
 
-    fetchPhotos() { 
-        return axios.get(`${this.#BASE_URL}`, {
+    async fetchPhotos() { 
+        return await axios.get(`${this.#BASE_URL}`, {
             params: {
                 q: this.q,
                 page: this.page,

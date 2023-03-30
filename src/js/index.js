@@ -21,6 +21,7 @@ loadMoreBtnEl.classList.add("hidden");
 
 function handlesearchFormElSubmit(event) {
     event.preventDefault();
+    clearInterface();
     loadMoreBtnEl.classList.add("hidden");
 
     const searchQuery = event.currentTarget.elements['searchQuery'].value;
@@ -32,15 +33,16 @@ function handlesearchFormElSubmit(event) {
     fetchPhotos();
 }
 
-function fetchPhotos() {
-    pixabayAPI
-    .fetchPhotos()
-    .then(({ data }) => { 
+async function fetchPhotos() {
+
+    try {
+        const { data } = await pixabayAPI.fetchPhotos();
+
         if (data.totalHits === 0) {
             Notify.failure("Sorry, there are no images matching your search query. Please try again.");
             return;
         }
-     
+
         galleryListEl.innerHTML = createGalleryCards(data.hits);
 
         lightbox.refresh();
@@ -50,14 +52,16 @@ function fetchPhotos() {
         if (data.totalHits > pixabayAPI.per_page) {
             loadMoreBtnEl.classList.remove("hidden");
         }
-    });
+
+    } catch (error) {
+        console.log(error);
+    }  
 }
 
-function fetchMorePhotos() {
-    pixabayAPI
-    .fetchPhotos()
-    .then(({ data }) => { 
-            
+async function fetchMorePhotos() {
+    try {
+        const { data } = await pixabayAPI.fetchPhotos();
+
         galleryListEl.insertAdjacentHTML('beforeend', createGalleryCards(data.hits));
         lightbox.refresh();  
         
@@ -65,15 +69,32 @@ function fetchMorePhotos() {
             loadMoreBtnEl.classList.add("hidden");
             Notify.failure("We're sorry, but you've reached the end of search results.");
         }
-    });
+
+    } catch (error) {
+        console.log(error);
+    }
 }
-    
+   
 function handleLoadMoreBtnClick() {
     pixabayAPI.page += 1;
 
     fetchMorePhotos();
    
 }
+
+function clearInterface() {
+    galleryListEl.innerHTML = "";
+
+}
+
+const { height: cardHeight } = document
+  .querySelector(".gallery")
+  .firstElementChild.getBoundingClientRect();
+
+window.scrollBy({
+  top: cardHeight * 2,
+  behavior: "smooth",
+});
 
 
 
