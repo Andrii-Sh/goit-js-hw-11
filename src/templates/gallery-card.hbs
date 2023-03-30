@@ -1,25 +1,25 @@
-{{!-- {{#each this}}
-<li class="gallery__item">
-    <img src="{{urls.small}}" alt="{{alt_description}}" class="gallery-img">
-</li>
-{{/each}} --}}
-
 {{#each this}}
+<a href="{{largeImageURL}}">
 <div class="photo-card">
-    <img src="" alt="" loading="lazy" />
+    <img src="{{webformatURL}}" alt="{{tags}}" loading="lazy" />
     <div class="info">
         <p class="info-item">
             <b>Likes</b>
+            {{likes}}
         </p>
         <p class="info-item">
             <b>Views</b>
+            {{views}}
         </p>
         <p class="info-item">
             <b>Comments</b>
+            {{comments}}
         </p>
         <p class="info-item">
             <b>Downloads</b>
+            {{downloads}}
         </p>
     </div>
 </div>
+</a>
 {{/each}}
