@@ -7,22 +7,50 @@
     <title>Homework 11</title>
   </head>
   <body>
-    <form class="search-form" id="search-form">
-      <input
-        type="text"
-        name="searchQuery"
-        autocomplete="off"
-        placeholder="Search images..."
-      />
-      <button type="submit">Search</button>
-    </form>
+    <div class="gallery-wrapper container">
+      <form class="search-form" id="search-form">
+        <input
+          class="search-form__input"
+          type="text"
+          name="searchQuery"
+          autocomplete="off"
+          placeholder="Search images..."
+        />
+        <button class="search-form__btn" type="submit">
+          <img
+            src="./images/search-icon.png"
+            alt="Search icon"
+            width="20"
+            height="20"
+          />
+        </button>
+      </form>
 
-    <div class="gallery">
-      <!-- Картки зображень -->
+      <div class="gallery cards-set">
+        <!-- Картки зображень -->
+      </div>
+
+      <button type="button" class="load-more">Load more</button>
     </div>
-
-    <button type="button" class="load-more">Load more</button>
 
     <script src="./js/index.js" type="module"></script>
   </body>
 </html>
+
+<!-- <form class="search-form">
+  <div class="input-group">
+    <div class="input-group2">
+      <label
+        ><input
+          type="search"
+          class="search-field"
+          placeholder="Find your perfect domain name"
+          value="" /></label
+      ><input
+        type="submit"
+        class="rstore-domain-search-button search-submit btn btn-primary"
+        value="Search"
+      />
+    </div>
+  </div>
+</form> -->

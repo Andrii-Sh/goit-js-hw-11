@@ -25,16 +25,19 @@ function handlesearchFormElSubmit(event) {
     loadMoreBtnEl.classList.add("hidden");
 
     const searchQuery = event.currentTarget.elements['searchQuery'].value;
-    console.log(searchQuery);
 
     pixabayAPI.q = searchQuery;
     pixabayAPI.page = 1;
+
+    if (!searchQuery) {
+        Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+        return;
+    }
 
     fetchPhotos();
 }
 
 async function fetchPhotos() {
-
     try {
         const { data } = await pixabayAPI.fetchPhotos();
 
@@ -47,8 +50,8 @@ async function fetchPhotos() {
 
         lightbox.refresh();
 
-        Notify.success(`Hooray! We found ${data.totalHits} images.`);      
-        
+        Notify.success(`Hooray! We found ${data.totalHits} images.`); 
+             
         if (data.totalHits > pixabayAPI.per_page) {
             loadMoreBtnEl.classList.remove("hidden");
         }
@@ -64,6 +67,13 @@ async function fetchMorePhotos() {
 
         galleryListEl.insertAdjacentHTML('beforeend', createGalleryCards(data.hits));
         lightbox.refresh();  
+
+        const { height: cardHeight } = galleryListEl.firstElementChild.getBoundingClientRect();
+
+        window.scrollBy({
+            top: cardHeight * 2,
+            behavior: "smooth",
+        });
         
         if (pixabayAPI.page >= data.totalHits / pixabayAPI.per_page) {
             loadMoreBtnEl.classList.add("hidden");
@@ -78,23 +88,12 @@ async function fetchMorePhotos() {
 function handleLoadMoreBtnClick() {
     pixabayAPI.page += 1;
 
-    fetchMorePhotos();
-   
+    fetchMorePhotos();   
 }
 
 function clearInterface() {
     galleryListEl.innerHTML = "";
 
 }
-
-const { height: cardHeight } = document
-  .querySelector(".gallery")
-  .firstElementChild.getBoundingClientRect();
-
-window.scrollBy({
-  top: cardHeight * 2,
-  behavior: "smooth",
-});
-
 
 
