@@ -24,7 +24,7 @@ function handlesearchFormElSubmit(event) {
     clearInterface();
     loadMoreBtnEl.classList.add("hidden");
 
-    const searchQuery = event.currentTarget.elements['searchQuery'].value;
+    const searchQuery = event.currentTarget.elements['searchQuery'].value.trim();
 
     pixabayAPI.q = searchQuery;
     pixabayAPI.page = 1;
